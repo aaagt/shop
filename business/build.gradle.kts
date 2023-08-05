@@ -1,14 +1,9 @@
 plugins {
-    application
+    id("java")
 }
 
 
-group = "${rootProject.group}.task1"
-
-
-application {
-    mainClass.set("Main")
-}
+group = "${rootProject.group}.business"
 
 
 dependencies {

@@ -1,3 +1,5 @@
+package aaagt.shop.app;
+
 public class Main {
 
     public static void main(String[] args) {

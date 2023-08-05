@@ -1,4 +1,4 @@
-rootProject.name = "name"
+rootProject.name = "shop"
 
 
 pluginManagement {
@@ -8,4 +8,5 @@ pluginManagement {
 }
 
 
-include("task1")
+include("app")
+include("business")
