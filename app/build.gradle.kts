@@ -14,7 +14,7 @@ application {
 dependencies {
     val junitVersion: String by project
 
-    implementation(":business")
+    implementation(project(":business"))
 
     testImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")
 }

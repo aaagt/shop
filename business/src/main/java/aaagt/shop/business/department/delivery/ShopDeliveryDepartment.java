@@ -7,6 +7,7 @@ import aaagt.shop.business.department.delivery.service.ExternalDeliveryService;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -50,10 +51,10 @@ public class ShopDeliveryDepartment implements Department, DeliveryDepartment {
      * @return трэкинг с информацией о текущем местоположении заказа
      */
     @Override
-    public Tracking getOrderTracking(int orderId) {
-        var externalDelivery = orderRepository.getExternalDeliveryNameForOrder(orderId);
-        var service = deliveryServices.get(externalDelivery);
-        return service.getTrackingForOrder(orderId);
+    public Optional<Tracking> getOrderTracking(int orderId) {
+        return orderRepository.getExternalDeliveryNameForOrder(orderId)
+                .map(deliveryServices::get)
+                .flatMap(service -> service.getTrackingForOrder(orderId));
     }
 
     /**
@@ -72,6 +73,9 @@ public class ShopDeliveryDepartment implements Department, DeliveryDepartment {
             String finishCity,
             String deliveryService
     ) {
+        if (!deliveryServices.containsKey(deliveryService)) {
+            throw new IllegalArgumentException("Не существует запрошенного deliveryService: " + deliveryService);
+        }
         var service = deliveryServices.get(deliveryService);
         service.registerOrder(orderId, startCity, finishCity);
         orderRepository.setExternalDeliveryNameForOrder(orderId, deliveryService);

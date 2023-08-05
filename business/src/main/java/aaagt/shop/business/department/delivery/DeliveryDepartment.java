@@ -2,6 +2,8 @@ package aaagt.shop.business.department.delivery;
 
 import aaagt.shop.business.department.delivery.dto.Tracking;
 
+import java.util.Optional;
+
 public interface DeliveryDepartment {
 
     /**
@@ -10,7 +12,7 @@ public interface DeliveryDepartment {
      * @param orderId идентификатор заказа
      * @return трэкинг с информацией о текущем местоположении заказа
      */
-    Tracking getOrderTracking(int orderId);
+    Optional<Tracking> getOrderTracking(int orderId);
 
     /**
      * Зарегестрировать заказ во внешней службе доставки
