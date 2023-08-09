@@ -8,6 +8,7 @@ import aaagt.shop.business.department.delivery.service.ExternalDeliveryService;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Scanner;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -42,6 +43,38 @@ public class ShopDeliveryDepartment implements Department, DeliveryDepartment {
     @Override
     public String getName() {
         return DELIVERY_DEPARTMENT_NAME;
+    }
+
+    @Override
+    public void showMenu() {
+        System.out.println("Введите одну из доступных команд:");
+        System.out.println("ОТСЛЕДИТЬ - чтобы оследить заказ");
+        System.out.println("ЗАРЕГЕСТРИРОВАТЬ - чтобы зарегестрировать заказ");
+        var scanner = new Scanner(System.in);
+        var cmd = scanner.nextLine().toUpperCase();
+        switch (cmd) {
+            case "ОТСЛЕДИТЬ" -> {
+                System.out.println("Введите номер заказа");
+                var orderId = Integer.parseInt(scanner.nextLine());
+                getOrderTracking(orderId).ifPresentOrElse(System.out::println,
+                        () -> {
+                            System.out.println("Не удалось найти запрошенный заказ");
+                        });
+            }
+            case "ЗАРЕГЕСТРИРОВАТЬ" -> {
+                System.out.print("Введите номер заказа ");
+                var orderId = Integer.parseInt(scanner.nextLine());
+                System.out.print("Введите пункт отправки ");
+                var startCity = scanner.nextLine();
+                System.out.print("Введите пункт назначения ");
+                var finishCity = scanner.nextLine();
+                System.out.print("Введите службу доставки ");
+                var deliveryService = scanner.nextLine();
+
+                registerOrder(orderId, startCity, finishCity, deliveryService);
+                System.out.println("Заказ зарегестрирован");
+            }
+        }
     }
 
     /**
